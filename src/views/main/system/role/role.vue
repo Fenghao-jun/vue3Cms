@@ -2,7 +2,7 @@
  * @Author: FatJun
  * @Date: 2022-03-03 17:51:38
  * @LastEditors: FatJun
- * @LastEditTime: 2022-04-10 20:47:30
+ * @LastEditTime: 2022-04-10 22:39:00
  * @FilePath: \vue3Cms\src\views\main\system\role\role.vue
  *
  * Copyright (c) 2022 by FatJun/Best, All Rights Reserved.
@@ -18,7 +18,7 @@
     />
     <page-model
       ref="pageModelRef"
-      :pageModelConfig="rolePageContentConfig"
+      :pageModelConfig="rolePageModelConfig"
       :defaultInfo="defaultInfo"
       pageName="role"
     ></page-model>
