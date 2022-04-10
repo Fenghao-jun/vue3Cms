@@ -17,6 +17,7 @@
     },
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },
+  //?那些ts代码需要进行解析
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
@@ -24,5 +25,6 @@
     "tests/**/*.ts",
     "tests/**/*.tsx"
   ],
+  //?排除
   "exclude": ["node_modules"]
 }
