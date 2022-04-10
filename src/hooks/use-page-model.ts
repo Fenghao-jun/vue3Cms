@@ -6,6 +6,7 @@ type handleCbFn = (data?: any) => void
 export function usePageModel(createCb?: handleCbFn, updateCb?: handleCbFn) {
   const pageModelRef = ref<InstanceType<typeof pageModel>>()
   const defaultInfo = ref<any>({})
+  //创建时的处理
   const handleCreateClick = () => {
     defaultInfo.value = {}
     if (pageModelRef.value) {
@@ -14,6 +15,7 @@ export function usePageModel(createCb?: handleCbFn, updateCb?: handleCbFn) {
     //回调
     createCb && createCb()
   }
+  //更新时的处理
   const handleUpdateClick = (item: any) => {
     defaultInfo.value = { ...item }
     console.log('defaultInfo: ', defaultInfo)

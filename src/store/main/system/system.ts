@@ -13,6 +13,10 @@ import {
 import { IUserList } from '../../../services/main/system/types'
 import { IGoodsList } from './type'
 import {
+  createPageData,
+  updatePageData
+} from '../../../services/main/system/system'
+import {
   IUserChildrenMenus,
   IUserMenusResult
 } from '../../../services/login/type'
@@ -120,6 +124,39 @@ const systemModule: Module<ISystemModule, IRootStore> = {
       const { id } = pageInfo
       const pageUrl = `/${pageName}/${id}`
       const res = await deletedPageData(pageUrl)
+      console.log('res: ', res)
+      //!成功后重新请求页面数据
+      dispatch('getPageListAction', {
+        pageName,
+        pageInfo: {
+          offset: 0,
+          size: 5
+        }
+      })
+    },
+    async createPageDataAction({ dispatch }, payload: ISystemListDataParams) {
+      const { pageName, pageInfo } = payload
+      console.log('pageInfo: ', pageInfo)
+      const pageUrl = `/${pageName}`
+      const res = await createPageData(pageUrl, pageInfo)
+      console.log('res: ', res)
+      //!成功后重新请求页面数据
+      dispatch('getPageListAction', {
+        pageName,
+        pageInfo: {
+          offset: 0,
+          size: 5
+        }
+      })
+    },
+
+    async updatePageData({ dispatch }, payload: ISystemListDataParams) {
+      const { pageName, pageInfo } = payload
+      const { id } = pageInfo
+      console.log('pageInfo: ', pageInfo)
+      const pageUrl = `/${pageName}/${id}`
+
+      const res = await updatePageData(pageUrl, pageInfo)
       console.log('res: ', res)
       //!成功后重新请求页面数据
       dispatch('getPageListAction', {

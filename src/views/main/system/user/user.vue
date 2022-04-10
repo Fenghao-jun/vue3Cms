@@ -17,6 +17,7 @@
     <page-model
       :pageModelConfig="modelConfigRef"
       :defaultInfo="defaultInfo"
+      pageName="users"
       ref="pageModelRef"
     />
   </div>
@@ -68,9 +69,13 @@ export default defineComponent({
       }
     }
 
+    const { pageModelRef, handleCreateClick, handleUpdateClick, defaultInfo } =
+      usePageModel(handleCreateClickCb, handleUpdateClickCb)
+
     const modelConfigRef = computed(() => {
       const store = useStore()
       console.log(store.state)
+      //计算属性会收集依赖，当vuex中的数据发生变化时，会自动触发计算属性的更新
       const departmentConfig = pageModelConfig.fromItems.find(
         (item) => item.field === 'departmentId'
       )
@@ -96,9 +101,6 @@ export default defineComponent({
       }
       return pageModelConfig
     })
-
-    const { pageModelRef, handleCreateClick, handleUpdateClick, defaultInfo } =
-      usePageModel(handleCreateClickCb, handleUpdateClickCb)
 
     return {
       searchFromConfig,

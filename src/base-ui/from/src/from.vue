@@ -95,7 +95,7 @@ export default defineComponent({
     }
   },
   emits: ['update:modelValue'],
-  setup(props, { emit }) {
+  setup(props: any, { emit }) {
     //复制一遍值
     const fromData = ref({ ...props.modelValue })
     const fromOriginData = { ...props.modelValue }
@@ -103,7 +103,7 @@ export default defineComponent({
     //如果使用计算属性，实际上set并不会触发，四舍五入也是修改了原本的属性，而不是通过事件传递去修改。所以此处使用watch监听变化，再触发事件修改
     watch(
       fromData,
-      (nVal) => {
+      (nVal: any) => {
         console.log('nVal: ', nVal)
         emit('update:modelValue', nVal)
       },

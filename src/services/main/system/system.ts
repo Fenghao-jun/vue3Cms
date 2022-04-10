@@ -14,3 +14,17 @@ export function deletedPageData(url: string) {
     url: url
   })
 }
+
+export function createPageData(url: string, data: any) {
+  return mRequestInstance.post<IDataResult<any>>({
+    url: url,
+    data: data
+  })
+}
+
+export function updatePageData(url: string, data: any) {
+  return mRequestInstance.patch<IDataResult<any>>({
+    url: url,
+    data: data
+  })
+}
