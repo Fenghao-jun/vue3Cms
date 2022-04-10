@@ -46,8 +46,10 @@ export default defineComponent({
     const centerDialogVisible = ref(false)
     const fromData = ref<{ [index: string]: any }>({})
     watch(
-      () => props.defaultInfo,
-      (nValue) => {
+      () => {
+        props.defaultInfo
+      },
+      (nValue: any) => {
         // console.log('nValue: ', nValue)
         // fromData.value = nValue
         for (const item of props.pageModelConfig.fromItems) {

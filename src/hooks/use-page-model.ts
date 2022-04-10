@@ -1,8 +1,14 @@
 import pageModel from '@/components/page-model/index'
-import { ref } from 'vue'
+import { Ref, ref } from 'vue'
 
 type handleCbFn = (data?: any) => void
 
+/**
+ * @description: 搭配组件 page-model 使用
+ * @param {handleCbFn} createCb 新建功能时需要使用的回调函数
+ * @param {handleCbFn} updateCb 修改功能时需要使用的回调函数
+ * @return {*}
+ */
 export function usePageModel(createCb?: handleCbFn, updateCb?: handleCbFn) {
   const pageModelRef = ref<InstanceType<typeof pageModel>>()
   const defaultInfo = ref<any>({})
