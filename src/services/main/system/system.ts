@@ -1,6 +1,5 @@
 import mRequestInstance from '@/services'
 import { IDataResult } from '../../type'
-import { IUserListResData } from './types'
 
 export function getPageListData(url: string, pageInfo: any) {
   return mRequestInstance.post<IDataResult<any>>({

@@ -2,7 +2,7 @@
  * @Author: FatJun
  * @Date: 2021-12-21 10:30:54
  * @LastEditors: FatJun
- * @LastEditTime: 2022-04-07 17:05:00
+ * @LastEditTime: 2022-04-10 18:32:10
  * @FilePath: /vue3-ts-cms/src/store/index.ts
  *
  * Copyright (c) 2022 by FatJun/Best, All Rights Reserved.
@@ -32,6 +32,11 @@ const store = createStore<IRootStore>({
     }
   },
   actions: {
+    /**
+     * @description: 用于初始化选项
+     * @param {*} param1
+     * @return {*}
+     */
     async getInitializeOptions({ commit }) {
       //部门数据
       const {
@@ -60,7 +65,7 @@ const store = createStore<IRootStore>({
 
 export function reloadStore() {
   store.dispatch('login/reloadLocalUserInfo')
-  store.dispatch('getInitializeOptions')
+  // store.dispatch('getInitializeOptions')
 }
 //重写一个useStore，让返回的store附带上类型
 export function useStore(): Store<IStoreType> {

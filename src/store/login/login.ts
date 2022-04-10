@@ -65,13 +65,16 @@ const store: Module<ILoginStore, IRootStore> = {
      * @param {IAccount} payload
      * @return {*}
      */
-    async accountLoginAction({ commit }, payload: IAccount) {
+    async accountLoginAction({ commit, dispatch }, payload: IAccount) {
       console.log('accountLoginAction: ', payload)
       //登陆
       const accountRes = await loginAccountRequest(payload)
       const { id, token } = accountRes.data
       localCache.setLocal('token', token)
       commit('changeToken', token)
+
+      //获取选项
+      dispatch('getInitializeOptions', null, { root: true })
 
       //获取用户信息
       const userInfoRes = await requestUserInfoById(id)
@@ -95,10 +98,11 @@ const store: Module<ILoginStore, IRootStore> = {
     phoneLoginAction({ commit }, payload: any) {
       console.log('phoneLoginAction: ', payload)
     },
-    reloadLocalUserInfo({ commit }) {
+    reloadLocalUserInfo({ commit, dispatch }) {
       const token = localCache.getLocal('token')
       if (token) {
         commit('changeToken', token)
+        dispatch('getInitializeOptions', null, { root: true })
       }
       const userInfo = localCache.getLocal('userInfo')
       if (userInfo) {
