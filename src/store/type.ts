@@ -5,6 +5,7 @@ export interface IRootStore {
   age: number
   entireDepartments: any[]
   entireRoles: any[]
+  entireMenuList: any[]
 }
 
 export interface IRootStoreWithModule {

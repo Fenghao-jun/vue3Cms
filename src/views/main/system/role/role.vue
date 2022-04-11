@@ -2,8 +2,8 @@
  * @Author: FatJun
  * @Date: 2022-03-03 17:51:38
  * @LastEditors: FatJun
- * @LastEditTime: 2022-04-10 20:47:30
- * @FilePath: \vue3Cms\src\views\main\system\role\role.vue
+ * @LastEditTime: 2022-04-12 00:22:38
+ * @FilePath: /vue3-ts-cms/src/views/main/system/role/role.vue
  *
  * Copyright (c) 2022 by FatJun/Best, All Rights Reserved.
 -->
@@ -18,15 +18,24 @@
     />
     <page-model
       ref="pageModelRef"
-      :pageModelConfig="rolePageContentConfig"
+      :pageModelConfig="rolePageModelConfig"
       :defaultInfo="defaultInfo"
       pageName="role"
-    ></page-model>
+    >
+      <el-tree
+        :data="treeData"
+        show-checkbox
+        node-key="id"
+        :props="{ children: 'children', label: 'name' }"
+      />
+    </page-model>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, computed } from 'vue'
+import { useStore } from '@/store'
+
 import pageContent from '@/components/page-content/'
 import PageSearch from '@/components/page-search/'
 import pageModel from '@/components/page-model/'
@@ -50,6 +59,9 @@ export default defineComponent({
     const { pageModelRef, defaultInfo, handleCreateClick, handleUpdateClick } =
       usePageModel()
 
+    const store = useStore()
+    const treeData = computed(() => store.state.entireMenuList)
+
     return {
       rolePageContentConfig,
       searchFromConfig,
@@ -57,7 +69,8 @@ export default defineComponent({
       pageModelRef,
       defaultInfo,
       handleCreateClick,
-      handleUpdateClick
+      handleUpdateClick,
+      treeData
     }
   }
 })

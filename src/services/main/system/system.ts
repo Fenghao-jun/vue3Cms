@@ -1,7 +1,7 @@
 import mRequestInstance from '@/services'
 import { IDataResult } from '../../type'
 
-export function getPageListData(url: string, pageInfo: any) {
+export function getPageListData(url: string, pageInfo?: any) {
   return mRequestInstance.post<IDataResult<any>>({
     url: url,
     data: pageInfo

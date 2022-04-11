@@ -2,7 +2,7 @@
  * @Author: FatJun
  * @Date: 2021-12-21 10:30:54
  * @LastEditors: FatJun
- * @LastEditTime: 2022-04-10 18:32:10
+ * @LastEditTime: 2022-04-12 00:11:24
  * @FilePath: /vue3-ts-cms/src/store/index.ts
  *
  * Copyright (c) 2022 by FatJun/Best, All Rights Reserved.
@@ -20,7 +20,8 @@ const store = createStore<IRootStore>({
       name: '',
       age: 0,
       entireDepartments: [],
-      entireRoles: []
+      entireRoles: [],
+      entireMenuList: []
     }
   },
   mutations: {
@@ -29,6 +30,9 @@ const store = createStore<IRootStore>({
     },
     changeEntireRoles(state, payload: any[]) {
       state.entireRoles = payload
+    },
+    changeEntireMenuList(state, payload: any[]) {
+      state.entireMenuList = payload
     }
   },
   actions: {
@@ -52,7 +56,13 @@ const store = createStore<IRootStore>({
         offset: 0,
         size: 100
       })
+      //全部菜单数据，用于菜单树
+      const {
+        data: { list: entireMenuList }
+      } = await getPageListData('/menu/list')
+      console.log('entireMenuList: ', entireMenuList)
       console.log('list: ', entireDepartments)
+      commit('changeEntireMenuList', entireMenuList)
       commit('changeEntireDepartments', entireDepartments)
       commit('changeEntireRoles', entireRoles)
     }

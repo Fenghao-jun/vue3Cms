@@ -7,7 +7,8 @@
       center
       destroy-on-close
     >
-      <hj-from v-bind="pageModelConfig" v-model="fromData"></hj-from>
+      <hj-from v-bind="pageModelConfig" v-model="fromData"> </hj-from>
+      <slot></slot>
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="centerDialogVisible = false">取消</el-button>
@@ -43,22 +44,23 @@ export default defineComponent({
     }
   },
   setup(props) {
+    //!监听数据相关
     const centerDialogVisible = ref(false)
-    const fromData = ref<{ [index: string]: any }>({})
+    const fromData: any = ref<{ [index: string]: any }>({})
     watch(
-      () => {
-        props.defaultInfo
-      },
+      () => props.defaultInfo,
       (nValue: any) => {
-        // console.log('nValue: ', nValue)
+        console.log('nValue: ', nValue)
         // fromData.value = nValue
         for (const item of props.pageModelConfig.fromItems) {
-          fromData.value[`${String(item.field)}`] =
-            nValue[`${String(item.field)}`]
+          console.log(item)
+          fromData.value[`${item.field as string}`] =
+            nValue[`${item.field as string}`]
         }
       }
     )
 
+    //!请求相关
     const store = useStore()
     const handleConfirmClick = () => {
       if (Object.keys(props.defaultInfo).length) {
@@ -76,6 +78,7 @@ export default defineComponent({
       }
       centerDialogVisible.value = false
     }
+    //!第二层封装
 
     return {
       centerDialogVisible,

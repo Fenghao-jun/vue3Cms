@@ -9,7 +9,12 @@ export const roleTableColumns: TableColumn<IRoleList> = [
     minWidth: '100px',
     align: 'center'
   },
-
+  {
+    prop: 'intro',
+    label: '角色描述',
+    minWidth: '100px',
+    align: 'center'
+  },
   {
     prop: 'createAt',
     label: '创建时间',

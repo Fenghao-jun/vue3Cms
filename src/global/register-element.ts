@@ -2,7 +2,7 @@
  * @Author: FatJun
  * @Date: 2022-01-01 21:40:35
  * @LastEditors: FatJun
- * @LastEditTime: 2022-04-06 22:30:10
+ * @LastEditTime: 2022-04-12 00:21:43
  * @FilePath: /vue3-ts-cms/src/global/register-element.ts
  *
  * Copyright (c) 2022 by FatJun/Best, All Rights Reserved.
@@ -45,7 +45,8 @@ import {
   ElTag,
   ElPagination,
   ElImage,
-  ElDialog
+  ElDialog,
+  ElTree
 } from 'element-plus'
 
 const components = [
@@ -84,7 +85,8 @@ const components = [
   ElTag,
   ElPagination,
   ElImage,
-  ElDialog
+  ElDialog,
+  ElTree
 ]
 
 export function registerEl(app: App): void {
