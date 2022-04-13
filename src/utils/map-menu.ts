@@ -2,7 +2,7 @@
  * @Author: FatJun
  * @Date: 2022-03-04 16:54:52
  * @LastEditors: FatJun
- * @LastEditTime: 2022-04-05 23:55:01
+ * @LastEditTime: 2022-04-13 11:31:50
  * @FilePath: /vue3-ts-cms/src/utils/map-menu.ts
  *
  * Copyright (c) 2022 by FatJun/Best, All Rights Reserved.
@@ -118,6 +118,24 @@ export function mapMenusToPermissions(userMenus: userMenusRow) {
   _recuseGetPermissions(userMenus)
 
   return permissions
+}
+
+export function getMenuLeaf(userMenus: userMenusRow) {
+  const menuLeaf: number[] = []
+
+  const _recuseGetLeaf = (menus: any) => {
+    for (const menu of menus) {
+      if (menu.children) {
+        _recuseGetLeaf(menu.children)
+      } else {
+        menuLeaf.push(menu.id)
+      }
+    }
+  }
+
+  _recuseGetLeaf(userMenus)
+
+  return menuLeaf
 }
 
 export { firstMenu }

@@ -2,8 +2,8 @@
  * @Author: FatJun
  * @Date: 2022-03-03 17:51:38
  * @LastEditors: FatJun
- * @LastEditTime: 2022-04-10 22:39:00
- * @FilePath: \vue3Cms\src\views\main\system\role\role.vue
+ * @LastEditTime: 2022-04-13 11:36:00
+ * @FilePath: /vue3-ts-cms/src/views/main/system/role/role.vue
  *
  * Copyright (c) 2022 by FatJun/Best, All Rights Reserved.
 -->
@@ -20,9 +20,12 @@
       ref="pageModelRef"
       :pageModelConfig="rolePageModelConfig"
       :defaultInfo="defaultInfo"
+      :otherInfo="otherInfo"
       pageName="role"
     >
       <el-tree
+        @check="handleCheckChange"
+        ref="treeRef"
         :data="treeData"
         show-checkbox
         node-key="id"
@@ -33,7 +36,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, ref, nextTick } from 'vue'
 import { useStore } from '@/store'
 
 import pageContent from '@/components/page-content/'
@@ -47,6 +50,8 @@ import {
 } from './config'
 
 import { usePageModel } from '@/hooks'
+import { ElTree } from 'element-plus'
+import { getMenuLeaf } from '@/utils/map-menu'
 
 export default defineComponent({
   name: 'role',
@@ -56,8 +61,34 @@ export default defineComponent({
     pageModel
   },
   setup() {
+    const treeRef = ref<InstanceType<typeof ElTree>>()
+    const otherInfo = ref({})
+    const handleCreateCb = () => {
+      nextTick(() => {
+        console.log('treeRef: ', treeRef)
+      })
+    }
+    const handleCheckChange = (currentNode: any, treeStateObj: any) => {
+      const { checkedKeys, halfCheckedKeys } = treeStateObj
+      otherInfo.value = {
+        menuList: [...checkedKeys, ...halfCheckedKeys]
+      }
+    }
+
+    const handleUpdateCb = (item: any) => {
+      console.log('item: ', item)
+      const { menuList } = item
+      //递归获取所有勾选的子节点进行设置
+      const menuLeaf = getMenuLeaf(menuList)
+      nextTick(() => {
+        if (treeRef.value) {
+          treeRef.value.setCheckedKeys(menuLeaf, false)
+        }
+      })
+    }
+
     const { pageModelRef, defaultInfo, handleCreateClick, handleUpdateClick } =
-      usePageModel()
+      usePageModel(handleCreateCb, handleUpdateCb)
 
     const store = useStore()
     const treeData = computed(() => store.state.entireMenuList)
@@ -70,7 +101,10 @@ export default defineComponent({
       defaultInfo,
       handleCreateClick,
       handleUpdateClick,
-      treeData
+      treeData,
+      treeRef,
+      handleCheckChange,
+      otherInfo
     }
   }
 })

@@ -38,6 +38,10 @@ export default defineComponent({
       type: Object,
       default: () => ({})
     },
+    otherInfo: {
+      type: Object,
+      default: () => ({})
+    },
     pageName: {
       type: String,
       required: true
@@ -67,13 +71,17 @@ export default defineComponent({
         console.log('当前是修改，因为有id')
         store.dispatch('system/updatePageData', {
           pageName: props.pageName,
-          pageInfo: { ...fromData.value, id: props.defaultInfo.id }
+          pageInfo: {
+            ...fromData.value,
+            ...props.otherInfo,
+            id: props.defaultInfo.id
+          }
         })
       } else {
         console.log('当前是新增，因为没有id')
         store.dispatch('system/createPageDataAction', {
           pageName: props.pageName,
-          pageInfo: { ...fromData.value }
+          pageInfo: { ...fromData.value, ...props.otherInfo }
         })
       }
       centerDialogVisible.value = false
