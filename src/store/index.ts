@@ -2,15 +2,18 @@
  * @Author: FatJun
  * @Date: 2021-12-21 10:30:54
  * @LastEditors: FatJun
- * @LastEditTime: 2022-04-12 00:11:24
+ * @LastEditTime: 2022-04-15 16:04:28
  * @FilePath: /vue3-ts-cms/src/store/index.ts
  *
  * Copyright (c) 2022 by FatJun/Best, All Rights Reserved.
  */
 import { createStore, Store, useStore as useVuexStore } from 'vuex'
 import { IRootStore } from './type'
+
 import login from './login/login'
 import system from './main/system/system'
+import dashboard from './main/analysis/dashboard'
+
 import { IStoreType } from './type'
 import { getPageListData } from '../services/main/system/system'
 
@@ -69,7 +72,8 @@ const store = createStore<IRootStore>({
   },
   modules: {
     login,
-    system
+    system,
+    dashboard
   }
 })
 
