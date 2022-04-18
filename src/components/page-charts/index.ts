@@ -1,3 +1,5 @@
 import pieCharts from './src/pic-charts.vue'
-export default pieCharts
+import roseCharts from './src/rose-charts.vue'
+import lineCharts from './src/line-charts.vue'
+export { pieCharts, roseCharts, lineCharts }
 export * from './types/type'
