@@ -1,48 +1,66 @@
 <template>
   <div class="dashboard">
-    <h2>dashboard</h2>
-    <div ref="divRef" :style="{ height: '400px', width: '700px' }"></div>
+    <el-row :gutter="10">
+      <el-col :span="7">
+        <hj-card title="分类商品数量(饼图)">
+          <pie-charts :data="categoryCountComputed" />
+        </hj-card>
+      </el-col>
+      <el-col :span="10">
+        <hj-card title="不同城市商品销量"></hj-card>
+      </el-col>
+      <el-col :span="7">
+        <hj-card title="分类商品数量(玫瑰图)"></hj-card>
+      </el-col>
+    </el-row>
+    <el-row :gutter="10" class="dashboard-content">
+      <el-col :span="12">
+        <hj-card title="分类商品的销量"></hj-card>
+      </el-col>
+      <el-col :span="12">
+        <hj-card title="分类商品的收藏"></hj-card>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue'
-import * as eCharts from 'echarts'
+import { computed, defineComponent } from 'vue'
+import { useStore } from '@/store'
+import hjCard from '@/base-ui/card/index'
+import {
+  ICategoryGoodsCount,
+  ICategoryGoodsSale
+} from '@/services/main/analysis'
+import pieCharts from '@/components/page-charts'
 
 export default defineComponent({
   name: 'dashboard',
+  components: {
+    hjCard,
+    pieCharts
+  },
   setup() {
-    const divRef = ref<HTMLDivElement>()
-    onMounted(() => {
-      //初始化
-      const eChartsInstance = eCharts.init(divRef.value!, 'dark')
-      // 指定图表的配置项和数据
-      const option = {
-        title: {
-          text: 'ECharts 入门示例'
-        },
-        tooltip: {},
-        legend: {
-          data: ['销量']
-        },
-        xAxis: {
-          data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
-        },
-        yAxis: {},
-        series: [
-          {
-            name: '销量',
-            type: 'bar',
-            data: [5, 20, 36, 10, 10, 20]
-          }
-        ]
-      }
-      //更新数据
-      eChartsInstance.setOption(option)
+    const store = useStore()
+    store.dispatch('dashboard/getDashboardDataAction')
+    const categoryCountComputed = computed(() => {
+      return store.state.dashboard.categoryGoodsSale.map(
+        (item: ICategoryGoodsSale) => {
+          console.log('item: ', item)
+          return { name: item.name, value: item.goodsCount }
+        }
+      )
     })
-    return { divRef }
+
+    return {
+      categoryCountComputed
+    }
   }
 })
 </script>
 
-<style scoped></style>
+<style scoped>
+.dashboard-content {
+  margin-top: 10px;
+}
+</style>

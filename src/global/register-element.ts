@@ -1,12 +1,3 @@
-/*
- * @Author: FatJun
- * @Date: 2022-01-01 21:40:35
- * @LastEditors: FatJun
- * @LastEditTime: 2022-04-12 00:21:43
- * @FilePath: /vue3-ts-cms/src/global/register-element.ts
- *
- * Copyright (c) 2022 by FatJun/Best, All Rights Reserved.
- */
 import 'element-plus/lib/theme-chalk/base.css'
 import type { App } from 'vue'
 import {
@@ -46,7 +37,8 @@ import {
   ElPagination,
   ElImage,
   ElDialog,
-  ElTree
+  ElTree,
+  ElCard
 } from 'element-plus'
 
 const components = [
@@ -86,7 +78,8 @@ const components = [
   ElPagination,
   ElImage,
   ElDialog,
-  ElTree
+  ElTree,
+  ElCard
 ]
 
 export function registerEl(app: App): void {
