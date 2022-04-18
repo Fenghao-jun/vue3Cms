@@ -67,19 +67,19 @@ trim_trailing_whitespace = false
 
 - 第一步是选择 type，本次更新的类型
 
-| Type     | 作用                                                         |
-| -------- | ------------------------------------------------------------ |
-| feat     | 新增特性 (feature)                                           |
-| fix      | 修复 Bug(bug fix)                                            |
-| docs     | 修改文档 (documentation)                                     |
-| style    | 代码格式修改(white-space, formatting, missing semi colons, etc) |
-| refactor | 代码重构(refactor)                                           |
-| perf     | 改善性能(A code change that improves performance)            |
-| test     | 测试(when adding missing tests)                              |
-| build    | 变更项目构建或外部依赖（例如 scopes: webpack、gulp、npm 等） |
+| Type     | 作用                                                                                   |
+| -------- | -------------------------------------------------------------------------------------- |
+| feat     | 新增特性 (feature)                                                                     |
+| fix      | 修复 Bug(bug fix)                                                                      |
+| docs     | 修改文档 (documentation)                                                               |
+| style    | 代码格式修改(white-space, formatting, missing semi colons, etc)                        |
+| refactor | 代码重构(refactor)                                                                     |
+| perf     | 改善性能(A code change that improves performance)                                      |
+| test     | 测试(when adding missing tests)                                                        |
+| build    | 变更项目构建或外部依赖（例如 scopes: webpack、gulp、npm 等）                           |
 | ci       | 更改持续集成软件的配置文件和 package 中的 scripts 命令，例如 scopes: Travis, Circle 等 |
-| chore    | 变更构建流程或辅助工具(比如更改测试环境)                     |
-| revert   | 代码回退                                                     |
+| chore    | 变更构建流程或辅助工具(比如更改测试环境)                                               |
+| revert   | 代码回退                                                                               |
 
 - 第二步选择本次修改的范围（作用域）
 
@@ -105,31 +105,31 @@ trim_trailing_whitespace = false
 
 ![image-20210723150526211](https://fatjun-file.oss-accelerate.aliyuncs.com/uPic/008i3skNgy1gsqwc4gtkxj30e207174t.jpg)
 
-## 2.axios封装
+## 2.axios 封装
 
-### 2.1.axios封装文件夹目录结构
+### 2.1.axios 封装文件夹目录结构
 
 ![image-20220124112620429](https://fatjun-file.oss-accelerate.aliyuncs.com/uPic/image-20220124112620429.png)
 
-### 2.2.封装axios主要部分
+### 2.2.封装 axios 主要部分
 
-#### 2.2.1.安装axios
+#### 2.2.1.安装 axios
 
-axios需要在项目中使用，所以直接`npm install axios`
+axios 需要在项目中使用，所以直接`npm install axios`
 
-#### 2.2.2.创建axios实例
+#### 2.2.2.创建 axios 实例
 
-**此处使用class来进行对象的封装。**
+**此处使用 class 来进行对象的封装。**
 
-1. 从文件中导入axios。
+1. 从文件中导入 axios。
 
    ![image-20220124114450824](https://fatjun-file.oss-accelerate.aliyuncs.com/uPic/image-20220124114450824.png)
 
-2. 在class的构造器内使用axios.create来创建axios实例，可以看到axios.create需要传入一个AxiosRequestConfig类型的参数，并且函数会返回一个AxiosInstance类型的实例。![image-20220124114309096](https://fatjun-file.oss-accelerate.aliyuncs.com/uPic/image-20220124114309096.png)
+2. 在 class 的构造器内使用 axios.create 来创建 axios 实例，可以看到 axios.create 需要传入一个 AxiosRequestConfig 类型的参数，并且函数会返回一个 AxiosInstance 类型的实例。![image-20220124114309096](https://fatjun-file.oss-accelerate.aliyuncs.com/uPic/image-20220124114309096.png)
 
 3. 将返回的类型进行保存，后面进行拓展。![image-20220124115021818](https://fatjun-file.oss-accelerate.aliyuncs.com/uPic/image-20220124115021818.png)
 
-#### 2.2.3.实现axios请求功能
+#### 2.2.3.实现 axios 请求功能
 
 1. 这里使用实例中的`request`方法，`request`方法接受一个`AxiosRequestConfig`类型的参数。
 
@@ -141,7 +141,7 @@ axios需要在项目中使用，所以直接`npm install axios`
 
    ![image-20220124151101839](https://fatjun-file.oss-accelerate.aliyuncs.com/uPic/image-20220124151101839.png)
 
-#### 2.2.4.axios实例拦截器的封装
+#### 2.2.4.axios 实例拦截器的封装
 
 这里的拦截器封装分为三个部分：**全局、实例、具体请求**。由于实例化的拦截器需要在`class`内的`constructor`中去进行配置，所以我们需要将`AxiosRequestConfig`类型来进行拓展。
 
@@ -149,13 +149,11 @@ axios需要在项目中使用，所以直接`npm install axios`
 
 1. 命名一个`IAxiosRequestConfig`接口继承自`AxiosRequestConfig`，并创建一个`interceptions`属性存放拦截器的四个状态(请求成功失败、返回成功失败)下的回调函数，类型暂定为`any`。![image-20220124162145164](https://fatjun-file.oss-accelerate.aliyuncs.com/uPic/image-20220124162145164.png)
 
-2. 由于我们传入的interceptions属性包含拦截器在四个状态下回调函数，所以我们的interceptions属性类型需要包含四个函数`requestInterceptor`、`requestInterceptorCatch`、`responseInterceptor`、`responseInterceptorCatch`，这里我们也将这四个函数暂定为any。完成到这里，我们的类型应该是这样的，就差将拦截器的类型缩窄就完成类型的拓展的。![image-20220124163501989](https://fatjun-file.oss-accelerate.aliyuncs.com/uPic/image-20220124163501989.png)
+2. 由于我们传入的 interceptions 属性包含拦截器在四个状态下回调函数，所以我们的 interceptions 属性类型需要包含四个函数`requestInterceptor`、`requestInterceptorCatch`、`responseInterceptor`、`responseInterceptorCatch`，这里我们也将这四个函数暂定为 any。完成到这里，我们的类型应该是这样的，就差将拦截器的类型缩窄就完成类型的拓展的。![image-20220124163501989](https://fatjun-file.oss-accelerate.aliyuncs.com/uPic/image-20220124163501989.png)
 
-3. 在查看Axios的声明文件中我们可以看到`interceptors`中含有`request`、`response`两个属性，两个属性是`AxiosInterceptorManageer`类型的。**他们对成功的参数都是由泛型V来决定的**，请求和返回分别是`AxiosRequestConfig`和`AxiosResponse`。而失败回调的参数和返回值都是`any`。![image-20220124164631764](https://fatjun-file.oss-accelerate.aliyuncs.com/uPic/image-20220124164631764.png)
+3. 在查看 Axios 的声明文件中我们可以看到`interceptors`中含有`request`、`response`两个属性，两个属性是`AxiosInterceptorManageer`类型的。**他们对成功的参数都是由泛型 V 来决定的**，请求和返回分别是`AxiosRequestConfig`和`AxiosResponse`。而失败回调的参数和返回值都是`any`。![image-20220124164631764](https://fatjun-file.oss-accelerate.aliyuncs.com/uPic/image-20220124164631764.png)
 
-4. 这时我们在去把类型进行缩窄，将interceptors的接口类型规范起来。![image-20220124165852289](https://fatjun-file.oss-accelerate.aliyuncs.com/uPic/image-20220124165852289.png)
-
-   
+4. 这时我们在去把类型进行缩窄，将 interceptors 的接口类型规范起来。![image-20220124165852289](https://fatjun-file.oss-accelerate.aliyuncs.com/uPic/image-20220124165852289.png)
 
 ##### 2.2.4.2. 注册拦截器
 
@@ -165,19 +163,8 @@ axios需要在项目中使用，所以直接`npm install axios`
 
 2. 实例部分的拦截器则需要判断一下是否传入再进行注册。![image-20220124173556287](https://fatjun-file.oss-accelerate.aliyuncs.com/uPic/image-20220124173556287.png)
 
-3. 在设置请求拦截器时我们可以在现有基础上小改动一下类型让返回的类型更明确。由于我们现在使用的`IAxiosRequestConfig`是继承自`AxiosRequestConfig`的，我们可以在**接口中接受一个泛型T**，通过层层传递，传递给`IAxiosRequestConfig`接口的`interceptors`属性内的`responseInterceptor`，这样我们在使用拦截器也能有类型提示了。
+3. 在设置请求拦截器时我们可以在现有基础上小改动一下类型让返回的类型更明确。由于我们现在使用的`IAxiosRequestConfig`是继承自`AxiosRequestConfig`的，我们可以在**接口中接受一个泛型 T**，通过层层传递，传递给`IAxiosRequestConfig`接口的`interceptors`属性内的`responseInterceptor`，这样我们在使用拦截器也能有类型提示了。
 
    ![image-20220124175027071](https://fatjun-file.oss-accelerate.aliyuncs.com/uPic/image-20220124175027071.png)
 
-   
-
    ![image-20220124175718490](https://fatjun-file.oss-accelerate.aliyuncs.com/uPic/image-20220124175718490.png)
-
-
-
-
-
-
-
-
-

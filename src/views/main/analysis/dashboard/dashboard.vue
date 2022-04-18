@@ -17,11 +17,13 @@
     </el-row>
     <el-row :gutter="10" class="dashboard-content">
       <el-col :span="12">
-        <hj-card title="分类商品的销量"></hj-card>
+        <hj-card title="分类商品的销量">
+          <line-charts title="分类商品的销量" v-bind="categorySaleComputed" />
+        </hj-card>
       </el-col>
       <el-col :span="12">
         <hj-card title="分类商品的收藏">
-          <line-charts v-bind="categoryFavorComputed" />
+          <bar-charts v-bind="categoryFavorComputed" />
         </hj-card>
       </el-col>
     </el-row>
@@ -36,7 +38,12 @@ import type {
   ICategoryGoodsCount,
   ICategoryGoodsSale
 } from '@/services/main/analysis'
-import { pieCharts, roseCharts, lineCharts } from '@/components/page-charts'
+import {
+  pieCharts,
+  roseCharts,
+  barCharts,
+  lineCharts
+} from '@/components/page-charts'
 
 export default defineComponent({
   name: 'dashboard',
@@ -44,6 +51,7 @@ export default defineComponent({
     hjCard,
     pieCharts,
     roseCharts,
+    barCharts,
     lineCharts
   },
   setup() {
@@ -57,7 +65,22 @@ export default defineComponent({
         }
       )
     })
+    //  分类商品的销量
+    const categorySaleComputed = computed(() => {
+      const xAxisData: string[] = []
+      const data: number[] = []
+      const sales = store.state.dashboard.categoryGoodsSale
+      for (const sale of sales) {
+        xAxisData.push(sale.name)
+        data.push(sale.goodsCount)
+      }
 
+      return {
+        xAxisData,
+        data
+      }
+    })
+    //  分类商品的收藏
     const categoryFavorComputed = computed(() => {
       const xAxisData: string[] = []
       const data: number[] = []
@@ -74,7 +97,8 @@ export default defineComponent({
 
     return {
       categoryCountComputed,
-      categoryFavorComputed
+      categoryFavorComputed,
+      categorySaleComputed
     }
   }
 })
