@@ -7,7 +7,9 @@
         </hj-card>
       </el-col>
       <el-col :span="10">
-        <hj-card title="不同城市商品销量"></hj-card>
+        <hj-card title="不同城市商品销量">
+          <map-charts :mapData="addressGoodsSale" />
+        </hj-card>
       </el-col>
       <el-col :span="7">
         <hj-card title="分类商品数量(玫瑰图)">
@@ -42,7 +44,8 @@ import {
   pieCharts,
   roseCharts,
   barCharts,
-  lineCharts
+  lineCharts,
+  mapCharts
 } from '@/components/page-charts'
 
 export default defineComponent({
@@ -52,7 +55,8 @@ export default defineComponent({
     pieCharts,
     roseCharts,
     barCharts,
-    lineCharts
+    lineCharts,
+    mapCharts
   },
   setup() {
     const store = useStore()
@@ -94,11 +98,17 @@ export default defineComponent({
         data
       }
     })
+    const addressGoodsSale = computed(() => {
+      return store.state.dashboard.addressGoodsSale.map((item: any) => {
+        return { name: item.address, value: item.count }
+      })
+    })
 
     return {
       categoryCountComputed,
       categoryFavorComputed,
-      categorySaleComputed
+      categorySaleComputed,
+      addressGoodsSale
     }
   }
 })
